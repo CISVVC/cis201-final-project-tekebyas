@@ -1,12 +1,14 @@
 #include "index.h"
 
-void Index::add_word(Word word, int line)
+void Index::add_word(Word word)
 {
     for(int i=0; i < m_index.size(); i++)
     {
         if(word.get_word() == m_index[i].get_word())
         {
-            m_index[i].add_word(line);
+            int position = word.get_lines()[0]; // 0 because the word being entered is singular
+            // when it is added to the vector below it becomes the full object with multiple lines
+            m_index[i].add_word(position);
             return;
         }
     }

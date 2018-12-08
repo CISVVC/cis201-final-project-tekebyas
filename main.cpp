@@ -16,14 +16,16 @@
 
 std::vector<std::string> get_lines(std::istream& input);
 std::vector<Word> get_words(std::vector<std::string> lines);
+void add_to_index(std::vector<Word> words, Index index);
 
 int main(int argc, char *argv[])
 {
     std::ifstream input;
     std::string filename = argv[1];
     input.open(filename.c_str());
-    std::vector<std::string> Lines = get_lines(input);
+    std::vector<std::string> lines = get_lines(input);
     input.close();
+    std::vector<Word> words = get_words(lines);
     std::cout << "Working" << std::endl;
     return 0;
 }
@@ -41,4 +43,12 @@ std::vector<Word> get_words(std::vector<std::string> lines)
     // create Word object
     // add Word object to vector
     // return vector of Words
+}
+
+void add_to_index(std::vector<Word> words, Index index)
+{
+    for(int i=0; i < words.size(); i++)
+    {
+        // add to Index object
+    }
 }

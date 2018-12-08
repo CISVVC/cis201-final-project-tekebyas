@@ -8,7 +8,7 @@
 class Index
 {
 public:
-    void add_word(Word word, int line);
+    void add_word(Word word);
     std::ostream& print(std::ostream& o);
 private:
     std::vector<Word> m_index;
