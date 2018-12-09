@@ -17,7 +17,7 @@
 #include "index.h"
 
 std::vector<std::string> get_lines(std::istream& input);
-std::string format(std::string line);
+std::string format(std::string& line);
 std::vector<Word> get_words(std::vector<std::string> lines);
 void add_to_index(std::vector<Word> words, Index& index);
 
@@ -70,22 +70,20 @@ std::vector<std::string> get_lines(std::istream& input)
     return lines;
 }
 
-std::string format(std::string line)
+std::string format(std::string& line)
 {
     std::string formatted_line;
-    for(int i=0; i < line.size(); i++)
-    {
-        if(line.at(i) >= 'A' && line.at(i) <= 'Z')
-        {
-            line[i] = tolower(line[i]);
-        }
-    }
 
     for(int i=0; i < line.size(); i++)
     {
-        if((line.at(i) > 'a' && line.at(i) < 'z') || line.at(i) == ' ')
+        line[i] = tolower(line[i]);
+        if( !( (line[i] >='a' && line[i] <='z') || line[i] == ' ') )
         {
-            formatted_line += line.at(i);
+            line[i] = ' ';
+        }
+        if((line[i] >= 'a' && line[i] <= 'z') || line[i] == ' ')
+        {
+            formatted_line += line[i];
         }
     }
 
@@ -106,9 +104,9 @@ std::vector<Word> get_words(std::vector<std::string> lines)
             {
                 current_word += current_line[j];
             }
-            else
+            else if(current_line[j] == ' ' && current_line[j-1] != ' ')
             {
-                words.push_back(Word(current_word,i));
+                words.push_back(Word(current_word,i+1));
                 current_word = "";
             }
         }
