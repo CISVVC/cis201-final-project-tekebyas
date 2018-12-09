@@ -12,7 +12,7 @@ void Index::add_word(Word word)
             return;
         }
     }
-    m_index.push_back(word);
+    m_index.push_back(word); // if the word is not found in the list of unique words, it is added
 }
 
 std::ostream& Index::print(std::ostream& o)
@@ -25,7 +25,7 @@ std::ostream& Index::print(std::ostream& o)
         o << " : ";
         for(int j=0; j < m_index[i].get_lines().size(); j++)
         {
-            o << m_index[i].get_lines()[j]; // unsure if this works, replace even if it does
+            o << m_index[i].get_lines()[j]; // unsure if this works
             if(j != m_index[i].get_lines().size()-1)
             {
                 o << ", ";
