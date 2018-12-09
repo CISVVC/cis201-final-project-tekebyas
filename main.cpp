@@ -10,6 +10,7 @@
 
 #include<iostream>
 #include<fstream>
+#include<sstream>
 #include<string>
 #include<vector>
 #include "index.h"
@@ -56,11 +57,12 @@ int main(int argc, char *argv[]) // should be run in format: "./main [input file
 std::vector<std::string> get_lines(std::istream& input)
 {
     std::vector<std::string> lines;
-    std::string line, data;
+    std::string line;
 
     while(!input.eof())
     {
-        line = format(getline(input,data));
+        std::getline(input,line);
+        format(line);
         lines.push_back(line);
     }
 
@@ -91,10 +93,27 @@ std::string format(std::string line)
 
 std::vector<Word> get_words(std::vector<std::string> lines)
 {
-    // read until whitespace
-    // create Word object
-    // add Word object to vector
-    // return vector of Word objects
+    std::vector<Word> words;
+    std::string current_line, current_word;
+
+    for(int i=0; i < lines.size(); i++)
+    {
+        current_line = lines[i];
+        for(int j=0; j < current_line.size(); j++)
+        {
+            if(current_line[j] != ' ')
+            {
+                current_word += current_line[j];
+            }
+            else
+            {
+                words.push_back(Word(current_word,i));
+                current_word = "";
+            }
+        }
+    }
+
+    return words;
 }
 
 void add_to_index(std::vector<Word> words, Index index)
