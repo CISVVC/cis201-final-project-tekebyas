@@ -1,4 +1,4 @@
-This is a short line of text for testing purposes.
+This is A shOrt line of text for testing purposes.
 This is a secondary line.
 Tertiary
 Example

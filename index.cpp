@@ -31,5 +31,6 @@ std::ostream& Index::print(std::ostream& o)
                 o << ", ";
             }
         }
+        o << '\n';
     }
 }

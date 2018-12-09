@@ -13,12 +13,13 @@
 #include<sstream>
 #include<string>
 #include<vector>
+#include<cctype>
 #include "index.h"
 
 std::vector<std::string> get_lines(std::istream& input);
 std::string format(std::string line);
 std::vector<Word> get_words(std::vector<std::string> lines);
-void add_to_index(std::vector<Word> words, Index index);
+void add_to_index(std::vector<Word> words, Index& index);
 
 int main(int argc, char *argv[]) // should be run in format: "./main [input file] [output file (optional)]"
 {
@@ -74,9 +75,9 @@ std::string format(std::string line)
     std::string formatted_line;
     for(int i=0; i < line.size(); i++)
     {
-        if(line.at(i) > 'A' && line.at(i) < 'Z')
+        if(line.at(i) >= 'A' && line.at(i) <= 'Z')
         {
-            tolower(line.at(i));
+            line[i] = tolower(line[i]);
         }
     }
 
@@ -116,7 +117,7 @@ std::vector<Word> get_words(std::vector<std::string> lines)
     return words;
 }
 
-void add_to_index(std::vector<Word> words, Index index)
+void add_to_index(std::vector<Word> words, Index& index)
 {
     for(int i=0; i < words.size(); i++)
     {
