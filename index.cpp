@@ -1,4 +1,5 @@
 #include "index.h"
+#include <iomanip>
 
 void Index::add_word(Word word)
 {
@@ -17,12 +18,16 @@ void Index::add_word(Word word)
 
 std::ostream& Index::print(std::ostream& o)
 {
+    o << std::setw(16) << std::left << "Word";
+    o << std::setw(7) << std::left << "Count";
+    o << "Line(s)";
+    o << '\n';
     for(int i=0; i < m_index.size(); i++)
     {
+        o << std::setw(16);
         o << m_index[i].get_word();
-        o << " : ";
+        o << std::setw(7);
         o << m_index[i].get_count();
-        o << " : ";
         for(int j=0; j < m_index[i].get_lines().size(); j++)
         {
             o << m_index[i].get_lines()[j]; // unsure if this works

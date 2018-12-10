@@ -18,13 +18,15 @@
 
 std::vector<std::string> get_lines(std::istream& input);
 std::string format(std::string& line);
-std::vector<Word> get_words(std::vector<std::string> lines);
-void add_to_index(std::vector<Word> words, Index& index);
+std::vector<Word> get_words(std::vector<std::string>& lines);
+bool is_whitespace(char c);
+void add_to_index(std::vector<Word>& words, Index& index);
 
 int main(int argc, char *argv[]) // should be run in format: "./main [input file] [output file (optional)]"
 {
     std::ifstream input;
     std::string filename = argv[1]; // input file
+    filename += ".txt";
     input.open(filename.c_str());
     std::vector<std::string> lines = get_lines(input); // add lines to a vector for use without file
     input.close();
@@ -90,32 +92,41 @@ std::string format(std::string& line)
     return formatted_line;
 }
 
-std::vector<Word> get_words(std::vector<std::string> lines)
+std::vector<Word> get_words(std::vector<std::string>& lines)
 {
     std::vector<Word> words;
     std::string current_line, current_word;
-
-    for(int i=0; i < lines.size(); i++)
+    int position;
+    for(int line_count = 0; line_count < lines.size(); line_count++)
     {
-        current_line = lines[i];
-        for(int j=0; j < current_line.size(); j++)
+        current_line = lines[line_count];
+        current_line += ' ';
+        for(int pos = 0; pos < current_line.size(); pos++)
         {
-            if(current_line[j] != ' ')
+            if( !(is_whitespace( current_line[pos] ) ) )
             {
-                current_word += current_line[j];
+                current_word += current_line[pos];
             }
-            else if(current_line[j] == ' ' && current_line[j-1] != ' ')
+            if(current_word.size() != 0)
             {
-                words.push_back(Word(current_word,i+1));
-                current_word = "";
+                if( is_whitespace( current_line[pos] ) )
+                {
+                    words.push_back( Word(current_word, line_count+1) );
+                    current_word += current_line[pos]; // clears whitespace after word
+                    current_word = "";
+                }
             }
         }
     }
-
     return words;
 }
 
-void add_to_index(std::vector<Word> words, Index& index)
+bool is_whitespace(char c)
+{
+    return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
+}
+
+void add_to_index(std::vector<Word>& words, Index& index)
 {
     for(int i=0; i < words.size(); i++)
     {
