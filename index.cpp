@@ -1,3 +1,11 @@
+/*
+    Name: Teke Byas
+    File: index.cpp
+    Date of Creation: Friday, December 7, 2018
+    Description: This file implements the functions used to create an index of the words found
+        in a given file
+*/
+
 #include "index.h"
 #include <iomanip>
 #include <cctype>

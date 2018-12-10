@@ -1,3 +1,11 @@
+/*
+    Name: Teke Byas
+    File: word.cpp
+    Date of Creation: Friday, December 7, 2018
+    Description: This file implements the functions used in creating a Word object that will know
+        what the word is, where it was found, and how many times it was found
+*/
+
 #include "word.h"
 
 Word::Word(std::string word, int line)
