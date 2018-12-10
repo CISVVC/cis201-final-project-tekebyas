@@ -7,7 +7,7 @@ main : *.cpp
 
 run : main
 	@echo "Running the program:"
-	@./main text.txt
+	@./main alice
 
 edit:
 	@vim main.cpp
