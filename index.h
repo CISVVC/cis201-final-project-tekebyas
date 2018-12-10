@@ -10,8 +10,8 @@ class Index
 public:
     Index(std::ifstream& input);
     std::string format(std::string& line);
-    std::vector<Word> get_words(std::vector<std::string>& lines);
-    bool is_whitespace(char c);
+    std::vector<Word> get_words(const std::vector<std::string>& lines);
+    bool is_whitespace(const char c);
     void add_word(Word word);
     std::ostream& print(std::ostream& o);
 private:

@@ -9,18 +9,18 @@ Index::Index(std::ifstream& input)
 
     while(!input.eof())
     {
-        std::getline(input,line);
+        std::getline(input,line); // getline clears the "line" string automatically
         format(line);
-        // "lines" is used as a buffer to break the entire file into individual lines (also helps keep line count)
+        // "lines" is used as a buffer to break the entire file into individual lines and keep a line count
         lines.push_back(line);
     }
 
-    std::vector<Word> buffer = get_words(lines); // buffer used to better filter input
+    std::vector<Word> buffer = get_words(lines); // buffer used to filter input through add_word
 
     for(int i=0; i < buffer.size(); i++)
     {
         // add_word function is called rather than just pushing each word onto the vector
-        add_word(buffer[i]);
+        add_word(buffer[i]); // add_word will make sure no duplicate words appear on the m_index vector
     }
 }
 
@@ -33,7 +33,8 @@ std::string Index::format(std::string& line)
         line[i] = tolower(line[i]);
         if( !( (line[i] >='a' && line[i] <='z') || line[i] == ' ') )
         {
-            line[i] = ' '; // errors occurred with deleting chars so they are replaced instead
+            line.erase( line.begin()+i );
+            i--; // iterator has to be backed up one position else it will skip the next character
         }
         if((line[i] >= 'a' && line[i] <= 'z') || line[i] == ' ')
         {
@@ -44,15 +45,15 @@ std::string Index::format(std::string& line)
     return formatted_line;
 }
 
-std::vector<Word> Index::get_words(std::vector<std::string>& lines)
+std::vector<Word> Index::get_words(const std::vector<std::string>& lines)
 {
     std::vector<Word> words;
     std::string current_line, current_word;
-    for(int line_count = 0; line_count < lines.size(); line_count++)
+    for(int line_count = 0; line_count < lines.size(); line_count++) // iterate through every line given
     {
         current_line = lines[line_count]; // grabs one line at a time
         current_line += ' '; // adds whitespace to the end of every line so that the end of each word can be determined
-        for(int pos = 0; pos < current_line.size(); pos++)
+        for(int pos = 0; pos < current_line.size(); pos++) // iterate through every character of the line
         {
             if( !(is_whitespace( current_line[pos] ) ) )
             {
@@ -64,7 +65,7 @@ std::vector<Word> Index::get_words(std::vector<std::string>& lines)
                 {
                     words.push_back( Word(current_word, line_count+1) );
                     current_word += current_line[pos]; // clears whitespace after word
-                    current_word = "";
+                    current_word = ""; // the current word must be reset to blank
                 }
             }
         }
@@ -72,7 +73,7 @@ std::vector<Word> Index::get_words(std::vector<std::string>& lines)
     return words;
 }
 
-bool Index::is_whitespace(char c)
+bool Index::is_whitespace(const char c)
 {
     return (c == ' ' || c == '\t' || c == '\n' || c == '\r');
 }
